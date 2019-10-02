@@ -1,7 +1,7 @@
 ##############################################################
 # usage:
-# 압축파일들이 있는 경로를 currDir, 압축 해제할 경로를 destDir
-# 로 설정하고 실행하면 압축을 해제하고 c파일의 갯수를 출력한다.
+# 애들이 제출한 과제 압축파일들 있는 디렉토리에서 실행하면 
+# 압축을 해제하고 c파일의 갯수를 출력한다.
 #
 # desc:
 # 1.tar 형식으로 압축된 모든 파일들을 destDir에 압축 해제한다
@@ -17,19 +17,19 @@
 
 #!/usr/bin/env python3
 import os
-currDir = os.path.dirname( os.path.abspath(__file__))
+currDir = os.getcwd()
 destDir = '/'.join( [currDir,'temp__'] )
 
 import sys
 import tarfile
-sys.path.append('/'.join( [currDir,'imports'] ))
+sys.path.append('/'.join( [os.path.dirname(os.path.abspath(__file__)),'imports'] ))
 import files
 from homework import HomworkFile
 
 def decompTar(_fileName, _dest='.'):
     if tarfile.is_tarfile(_fileName) == False :
         print('ERR : ',_fileName,' is not tar file')
-        # TODO error case만 모아놓은 log 만들기
+        # TODO error case만 모아놓은 log 만들기 필요한지?
         return
     tar = tarfile.open(_fileName)
     tar.extractall(_dest)
@@ -37,9 +37,9 @@ def decompTar(_fileName, _dest='.'):
 def openTar(_fileName):
     if tarfile.is_tarfile(_fileName) == False :
         print('ERR : ',_fileName,' is not tar file')
-        # TODO error case만 모아놓은 log 만들기
+        # TODO error case만 모아놓은 log 만들기 필요한지?
         return
-    # mode가 필요한가? 없으면 어떻게 동작하는지?
+    #  tar, tar.gz 구분 없이 압축해제함
     tar = tarfile.open(_fileName)
     tar.list();
 

@@ -28,7 +28,6 @@ class HomworkFile :
                 self.namesC.append('/'.join([path,afile]))
         self.namesC.sort()
 
-
     def PrintStat(self, countHW=0):
         if self.countC<countHW:
             print(C_BOLD+C_RED)

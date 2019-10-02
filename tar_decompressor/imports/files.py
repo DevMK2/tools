@@ -4,7 +4,7 @@ def getDirList(_dirName):
     ret = []
     fileList = os.listdir(_dirName)
     for afile in fileList :
-        if os.path.isdir(afile) :
+        if isDir_fullpath('/'.join([_dirName,afile])) :
             ret.append(afile)
     return ret
 
