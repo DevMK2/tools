@@ -13,23 +13,25 @@ if __name__ == '__main__':
     countHW = input('Input number of required homework fiels : ')
     while not countHW.isnumeric():
         countHW = input('Input number of required homework fiels(only Number) : ')
+
     decompressor = DecompTar(destDir, countHW)
     fileList = files.getFileList(currDir)
-
     homeworks = decompressor.decompAll(fileList) 
     for homework in homeworks:
         homework.CountingC()
         homework.PrintStat(int(countHW))
 
-    countHW = input('Enter any key to compile all ...')
+    countHW = input('\nEnter any key to compile all ...')
+    os.system('clear')
     for homework in homeworks:
         homework.CompileAll()
 
-    countHW = input('\n----------- Exec files--------------')
+    countHW = input('\nEnter any key to execute files ...')
+    os.system('clear')
     for homework in homeworks:
         homework.ExecFiles()
-    #i=0
-    #for cfile in fileList :
-        #if not os.system('gcc -o '+str(i)+' '+cfile):
-            #print(cfile)
-    #os.system('clear')
+
+    countHW = input('\nEnter any key to see reports ...')
+    os.system('clear')
+    for homework in homeworks:
+        homework.ReportResult()
