@@ -11,6 +11,8 @@ from TarDecompressor import DecompTar
 
 if __name__ == '__main__':
     countHW = input('Input number of required homework fiels : ')
+    while not countHW.isnumeric():
+        countHW = input('Input number of required homework fiels(only Number) : ')
     decompressor = DecompTar(destDir, countHW)
     fileList = files.getFileList(currDir)
 
@@ -23,6 +25,9 @@ if __name__ == '__main__':
     for homework in homeworks:
         homework.CompileAll()
 
+    countHW = input('\n----------- Exec files--------------')
+    for homework in homeworks:
+        homework.ExecFiles()
     #i=0
     #for cfile in fileList :
         #if not os.system('gcc -o '+str(i)+' '+cfile):
