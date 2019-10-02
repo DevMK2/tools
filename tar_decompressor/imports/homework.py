@@ -13,6 +13,7 @@ class HomworkFile :
         self.student = _fullPath.split('/')[-1]
         self.countC = 0
         self.namesC = []
+        self.pathesC = []
 
     def Author(self):
         return self.student
@@ -25,7 +26,8 @@ class HomworkFile :
                 self.CountingC('/'.join([path, afile]))
             elif(re.match('.*\.c', afile)):
                 self.countC += 1
-                self.namesC.append('/'.join([path,afile]))
+                self.namesC.append(afile)
+                self.pathesC.append('/'.join([path,afile]))
         self.namesC.sort()
 
     def PrintStat(self, countHW=0):
@@ -33,6 +35,13 @@ class HomworkFile :
             print(C_BOLD+C_RED)
         print('\nHomwork : ',self.student+' --------------')
         print('- number of c sources : ',self.countC)
-        for nameC in self.namesC:
-            print('-- ',nameC)
+        for pathC in self.pathesC:
+            print('-- ',pathC)
         print(C_END)
+
+    def CompileAll(self, destDir=''):
+        for i in range(len(self.pathesC)):
+            if not os.system('gcc -o '+destDir+self.student+
+                    '_'+self.namesC[i]+' '+self.pathesC[i]):
+                print(pathesC[i])
+        #os.system('clear')

@@ -26,32 +26,40 @@ sys.path.append('/'.join( [os.path.dirname(os.path.abspath(__file__)),'imports']
 import files
 from homework import HomworkFile
 
-def decompTar(_fileName, _dest='.'):
-    if tarfile.is_tarfile(_fileName) == False :
-        print('ERR : ',_fileName,' is not tar file')
-        # TODO error case만 모아놓은 log 만들기 필요한지?
-        return
-    tar = tarfile.open(_fileName)
-    tar.extractall(_dest)
+class DecompTar :
+    def __init__(self,destDir,countHW):
+        self.destDir = destDir
+        self.countHW =countHW
 
-def openTar(_fileName):
-    if tarfile.is_tarfile(_fileName) == False :
-        print('ERR : ',_fileName,' is not tar file')
-        # TODO error case만 모아놓은 log 만들기 필요한지?
-        return
-    #  tar, tar.gz 구분 없이 압축해제함
-    tar = tarfile.open(_fileName)
-    tar.list();
+    def decompAll(self,fileList):
+        for afile in fileList :
+            self.decompTar(afile, destDir)
+        # dest의 각 dir를 HomeworkFile 객체로 만들기
+        homeworks = []
+        decompedDirList = files.getDirList(destDir)
+        for aDir in decompedDirList :
+            homeworks.append(HomworkFile('/'.join([destDir,aDir])))
+        return homeworks
+
+    def decompTar(self, _fileName, _dest='.'):
+        if tarfile.is_tarfile(_fileName) == False :
+            print('ERR : ',_fileName,' is not tar file')
+            # TODO error case만 모아놓은 log 만들기 필요한지?
+            return
+        tar = tarfile.open(_fileName)
+        tar.extractall(_dest)
 
 if __name__ == '__main__':
     # 과제에서 요구된 문항 수 입력
     countHW = input('Input number of required homework fiels : ')
+    decompressor = DecompTar(destDir=destDir, countHW=countHW)
+
     if not os.path.isdir(destDir):
         os.makedirs(destDir)
     # currDir의 모든 압축형식파일 destDir에 압축풀기
     fileList = files.getFileList(currDir)
     for afile in fileList :
-        decompTar(afile, destDir)
+        decompressor.decompTar(afile, destDir)
     # dest의 각 dir를 HomeworkFile 객체로 만들기
     homeworks = []
     decompedDirList = files.getDirList(destDir)
