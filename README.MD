@@ -5,7 +5,8 @@
 2. should run in bash & zsh terminal  
 
 ## usage
-1. .bashrc 에 다음 입력 ``` 
+1. .bashrc 에 다음 입력 
+``` 
 source {위치}/tools/setup.bash
 ```
 2. 압축 파일이 모여있는 디렉토리로 이동해서 compile_tar 실행
