@@ -82,7 +82,8 @@ class HomworkFile :
             print('\n'+str(idx+1)+'. '+self.namesExec[idx])
             if os.system('./'+self.namesExec[idx]) == 0:
                 self.result.errRuntime.append(self.pathesC[idx])
-            null = input('Enter any key to execute next code ...')
+            null = input(C_BOLD+C_RED+'Enter any key to execute next code ...'+C_END)
+        os.system('clear')
 
     def ReportResult(self):
         print('\n----'+'Homework of : ',self.student+' --------------')
