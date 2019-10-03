@@ -64,12 +64,17 @@ class HomworkFile :
     def CompileAll(self, destDir=''):
         for idx in range(len(self.pathesC)):
             nameExec = self.student+'_'+self.namesC[idx]
-            if os.system('gcc -o '+ destDir + nameExec +' ' +self.pathesC[idx]+' -lm')==0:
-                print('compile success : '+self.pathesC[idx])
+            pathExec = '/'.join([destDir, nameExec])
+            pathC = self.pathesC[idx]
+
+            gcc = ' '.join(['gcc', '-o', pathExec, pathC,' -lm'])
+            result = os.system( gcc )
+            if result == 0 :
+                print('compile success : '+ pathC)
                 self.namesExec.append(nameExec)
             else:
-                self.result.errCompile.append(self.pathesC[idx])
-                print(C_BOLD+C_RED+'compile failed : '+self.pathesC[idx]+C_END)
+                self.result.errCompile.append(pathC)
+                print(C_BOLD+C_RED+'compile failed : '+ pathC +C_END)
 
     def ExecFiles(self):
         print('\n----'+'Homwork of : ',self.student+' --------------')

@@ -3,6 +3,7 @@ import os
 import sys
 currDir = os.getcwd()
 destDir = '/'.join( [currDir,'temp__'] )
+execDest = '/'.join( [currDir,'temp__exec'])
 importDir = os.environ['TOOLS_ROOT_PATH']
 sys.path.append('/'.join( [importDir,'tar_decompressor','imports'] ))
 import files
@@ -23,8 +24,11 @@ if __name__ == '__main__':
 
     countHW = input('\nEnter any key to compile all ...')
     os.system('clear')
+    if not os.path.isdir(execDest):
+        os.makedirs(execDest)
     for homework in homeworks:
-        homework.CompileAll()
+        homework.CompileAll(execDest)
+    os.chdir(execDest)
 
     countHW = input('\nEnter any key to execute files ...')
     os.system('clear')

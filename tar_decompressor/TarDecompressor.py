@@ -47,7 +47,8 @@ class DecompTar :
             # TODO error case만 모아놓은 log 만들기 필요한지?
             return
         tar = tarfile.open(_fileName)
-        tar.extractall(_dest)
+        studentName = _fileName.split('.')[0]
+        tar.extractall('/'.join([_dest, studentName]))
 
 if __name__ == '__main__':
     # 과제에서 요구된 문항 수 입력
