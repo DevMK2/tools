@@ -11,7 +11,7 @@ class Screen(object):
         self.height = 0
 
         self.offsetY = 5
-        self.offsetX = 5
+        self.offsetX = 0
 
         self.title=''
         self.helpBar=''
@@ -93,6 +93,8 @@ class Screen(object):
                 self.paging(self.DOWN)
             elif ch == curses.KEY_ENTER or ch == ord('\n'):
                 self.items[self.current+self.top].Click()
+            elif ch == ord('d'):
+                self.deleting()
             elif ch == curses.ascii.ESC or ch == ord('q'):
                 break
 
@@ -126,6 +128,15 @@ class Screen(object):
             self.top += self.max_lines
             return
 
+    def deleting(self):
+        ch = self.window.getch()
+        if not ch == ord('d'):
+            return
+        for item in self.items:
+           if item.selected:
+               item.Delete()
+               self.items.remove(item)
+
     def render(self):
         self.window.erase()
         self.window.addstr(0 , 0, self.title, curses.color_pair(1))
@@ -148,14 +159,19 @@ class Screen(object):
 
 
 class Item:
-    def __init__(self,index,data=0):
-        self.data  = data
+    def __init__(self, index, data=[]):
+        self.data  = '  '.join(data)
         self.index = index
         self.selected = False
+
     def Print(self):
-        return '%d Item'%self.index
+        return '  '.join([str(self.index), self.data])
+
     def Click(self):
         self.selected = False if self.selected==True else True
+
+    def Delete(self):
+        print('goodbye see you rater')
 
 def main():
     items = [Item(index=num) for num in range(1000)]
