@@ -64,7 +64,7 @@ class HomworkFile :
     def CompileAll(self, destDir=''):
         for idx in range(len(self.pathesC)):
             nameExec = self.student+'_'+self.namesC[idx]
-            if os.system('gcc -o '+ destDir + nameExec +' ' +self.pathesC[idx])==0:
+            if os.system('gcc -o '+ destDir + nameExec +' ' +self.pathesC[idx]+' -lm')==0:
                 print('compile success : '+self.pathesC[idx])
                 self.namesExec.append(nameExec)
             else:
