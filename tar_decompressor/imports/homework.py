@@ -78,11 +78,15 @@ class HomworkFile :
 
     def ExecFiles(self):
         print('\n----'+'Homwork of : ',self.student+' --------------')
-        for idx in range(len(self.namesExec)):
+        length = len(self.namesExec)
+        for idx in range(length):
             print('\n'+str(idx+1)+'. '+self.namesExec[idx])
             if os.system('./'+self.namesExec[idx]) == 0:
                 self.result.errRuntime.append(self.pathesC[idx])
-            null = input(C_BOLD+C_RED+'Enter any key to execute next code ...'+C_END)
+            if idx==length-1:
+                null = input(C_BOLD+C_RED+'\n\n !!! This is last code of '+self.student+' !!! \n enter any key to execute \n'+C_END)
+            else :
+                null = input(C_BOLD+C_RED+'\nEnter any key to execute next code ...'+C_END)
         os.system('clear')
 
     def ReportResult(self):
