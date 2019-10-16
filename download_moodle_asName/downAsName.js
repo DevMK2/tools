@@ -13,9 +13,9 @@ const saveFile_Chrome = function (fileName, content, mimeType='application/x-tar
     objURL = window.URL.createObjectURL(blob);
 
     if (window.__Xr_objURL_forCreatingFile__) {
-        window.URL.revokeObjectURL(window.__Xr_objURL_forCreatingFile__);
+        window.URL.revokeObjectURL(window.__prev_objURL__);
     }
-    window.__Xr_objURL_forCreatingFile__ = objURL;
+    window.__prev_objURL__= objURL;
 
     var a = document.createElement('a');
 
