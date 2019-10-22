@@ -1,6 +1,0 @@
-channel in, out, c1, c2, d1, d2
-datatype ack = Bool
-
-MED(e,f) = e?x->(f!x->MED(e,f)|~|MED(e,f))
-Swait(x,b) = d2?ack-> c1!x.b->Swait(x,b) |~| if ack==b then S(not b) else Swait(x,b)
-S(b) = in?x->c1!(x,b)->Swait(x,b)
