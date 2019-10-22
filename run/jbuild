@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+cd ${TOOLS_ROOT_PATH}'/build_janus/'
+./janusbuild.sh
