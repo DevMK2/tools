@@ -50,7 +50,7 @@ def CallPS(procName):
 def GetProcName(argv):
     if len(argv) == 2 :
         return argv[1]
-    return input('Input process name : ')
+    return raw_input('Input process name : ')
     
 
 if __name__== "__main__":
