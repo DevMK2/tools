@@ -1,0 +1,18 @@
+{
+  "name": "bluec",
+  "version": "1.0.0",
+  "description": "이 프로젝트는 c, c++로 이루어진 프로젝트의 유닛테스트 환경을 제공한다.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/mocha $(find ./ -name '*.spec.js') --recursive -w"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.2"
+  }
+}
