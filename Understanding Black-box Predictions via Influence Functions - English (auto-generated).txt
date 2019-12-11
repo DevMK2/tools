@@ -1,0 +1,2536 @@
+materials supplied by Microsoft
+
+Corporation may be used for internal
+
+review analysis or research only any
+
+editing reproduction publication
+
+reproduction internet or public display
+
+is forbidden and may violate copyright
+
+law
+
+you
+
+okay folks table hello everyone so it's
+
+like legit included I'm Michael from
+
+Temple University yes working on his
+
+ph.d with Britney Mia and over his
+
+number you're working with deputy Kohler
+
+and illegal and he is visiting Cambridge
+
+for you so we're very fortunate to have
+
+been like to thank you sir thank you for
+
+listening thanks for coming
+
+ok so this talk is going to be about how
+
+a simple decades-old idea from
+
+Statistics can help us interpret today's
+
+black box models okay so in recent years
+
+there's been an explosion of interest in
+
+in machine learning in terms you know
+
+all of you aware and heard talk about
+
+convolutions and cue learning and so on
+
+just now so this explosion has been
+
+driven you know in part by the gains and
+
+accuracy that machine learning models
+
+have made in a lot of different tasks
+
+like object recognition so famously it's
+
+so much so that on many real-world tasks
+
+machine learning models have performance
+
+they're not comparable or better than
+
+than what humans can do however well
+
+we've gotten better at making
+
+high-performing models it's still hard
+
+to understand the fundamentally why do
+
+these models work what are they doing
+
+and this is because the models are not
+
+exactly simple any kind of thousands if
+
+not millions of parameters you recognize
+
+this from imagenet and Alex might rather
+
+and there's been a lot of you know what
+
+there's been a lot of work on explicitly
+
+interpretable models including great
+
+work from Microsoft but by and large
+
+they haven't matched the performance of
+
+these sort of black box models where you
+
+don't explicitly care about
+
+interoperability and so why are these
+
+sort of complicated models behaving the
+
+way they do why are they making the
+
+predictions they make that's going to be
+
+the focus of this talk so the central
+
+question is given a high accuracy by box
+
+model and a prediction that this model
+
+mix can we answer well why did a model
+
+make this prediction
+
+definition of why okay and we are
+
+interested in this because beyond just
+
+getting high accuracy if we can
+
+understand why the model mean and
+
+prediction we can make better decision
+
+so we can examine the models reasoning
+
+to see if it's faulty we can understand
+
+different failure modes of the model see
+
+so you can improve it you know you can
+
+discover a new science that principles
+
+about it well and also you can just
+
+provide explanations to end-users which
+
+will be increasingly important as ml
+
+systems can deploy more and more
+
+available and and show you a familiar
+
+with the new you regulations around the
+
+right to an explanation and so on okay
+
+oh and by the way just feel free to ask
+
+any questions hopefully if you have them
+
+okay so so that's the set up it just to
+
+grown us in a concrete example let's say
+
+we have this this image right as a dog
+
+this is a raw input and then it goes to
+
+your favorite model some neural net or
+
+whatever and then it the model comes out
+
+with this label go okay so what do you
+
+want to do we want to try to understand
+
+that why did the model say this is adult
+
+cane can we explain now the reasoning
+
+that the model would did okay so of
+
+course this is not a new question that's
+
+been the hottest part of the question is
+
+really just defining what is why and
+
+there's been a lot of great work under
+
+spanning many many years so here's a
+
+sampling of what people have done and
+
+what what kinds of questions that people
+
+study you know what kind of inputs
+
+maximally activate different neurons
+
+nunzio's like edge neuron or corner or
+
+dog face your own or something can we
+
+represent these models of simpler models
+
+that might be easier to understand can
+
+we look at which parts of the input when
+
+occluded maybe change your prediction
+
+the most and so there's been a lot of
+
+good work on this and these methods has
+
+led to useful insights and understanding
+
+and improvements in models right but
+
+it's still something missing among many
+
+of these methods and and the one common
+
+thread is that they all treat the learn
+
+model just saying in the middle as
+
+something that's fixed and they try to
+
+give explanations into
+
+terms of this six model right but
+
+sometimes you you want to understand
+
+well the provenance of the model where
+
+the weight of the model comes from why
+
+did it learn the way to learn okay and
+
+so the question is what where do these
+
+parameters of the model come from and
+
+answer is that ultimately it all comes
+
+from the training data okay so the
+
+picture and the previous slide was a bit
+
+incomplete and it was just on the right
+
+hand side but actually you have all this
+
+training we didn't self write down the
+
+weights by hand and the weights will
+
+learn from the training data and then
+
+the predictions on the test simple is
+
+actually a function of the training data
+
+okay so this leads to the question which
+
+we will be trying to answer in this talk
+
+how can we give an explanation of a
+
+prediction in terms of the training data
+
+defecation okay so so this is the the
+
+central point of for work so let me just
+
+repeat it so most existing methods which
+
+treat the model as something that's a
+
+really learn it would where as we treat
+
+the model as a function of the training
+
+data and so whereas they can explain the
+
+prediction with respect to certain model
+
+parameters like the model mate is
+
+friggen prediction because the
+
+coefficient on the CTOs high-order and
+
+it connects explain interaction in terms
+
+of you know the test input like which
+
+region is important what we try to do is
+
+explain predict the production with
+
+respect to the training data that was so
+
+most responsible for given prediction
+
+okay so what does it mean for a training
+
+data to be responsible and not for human
+
+prediction what what we're going to do
+
+is to take our training examples and one
+
+by one we are going to avoid them so try
+
+to make them a bit more important so
+
+that the model tries harder to fit that
+
+particular training point and then we're
+
+going to see what effect this has on the
+
+prediction and so for example given this
+
+given this model if we make this
+
+training image slightly more important
+
+to the model so the model tries harder
+
+to fit it and we will formalize this
+
+later but this is the basic intuition
+
+then you know if the prediction changes
+
+a lot let's say the model
+
+becomes a lot more confident that that
+
+is infected dog then we can say that
+
+this example at high influence and if
+
+the model so totally doesn't care about
+
+whether this image is not then that
+
+image has low influence on the
+
+prediction okay yeah why is the right
+
+notion of what input what training is
+
+important the marginal effect of a
+
+particular set of points
+
+yeah that's a good session so saying it
+
+you can have different are you getting
+
+at you know different data points in
+
+photography Jetta your definition is
+
+right take all of the denims think about
+
+the additional on top of that of this
+
+kind of one extra of this one data point
+
+along way right yeah you certainly think
+
+of other other ways of defining the
+
+reputable medicine sort of average over
+
+your various other ways than just margin
+
+exactly yeah yeah you can you can say I
+
+don't say this it's like a uniquely
+
+correct way of doing it but it's one
+
+intuitive way and basically what we are
+
+trying to do answers a counterfactual if
+
+like if we didn't have this training
+
+image or if we had many copies of this
+
+training image would the prediction
+
+change a lot and if it does then you
+
+know in some sense this is important and
+
+if we if you know you change the way on
+
+this image and nothing happened to the
+
+prediction then probably the model is
+
+not making use of that image and so
+
+conveniently this is also
+
+computationally tractable okay so so
+
+this gives us sort of a instance that
+
+effect explanation of a particular
+
+prediction in terms of the training data
+
+yes a most intractable changes you just
+
+we take train model and then you take
+
+intermission invert is rather than step
+
+yes there's not obvious that it's
+
+correctable yet but I'll get to that
+
+uh-huh okay so basically you can very
+
+loosely see this as so finally the
+
+support vectors and off of any for any
+
+given test example in a general model
+
+that's not necessarily a an SCM so okay
+
+and so by by going to the training data
+
+instead of so analyzing the waist agrees
+
+it just gives us a different perspective
+
+on what the model is doing and we'll
+
+make this clearer in the subsequent
+
+slide ok so just to recap where we are
+
+we start over quite you're doing this
+
+general question of whether the model
+
+make this prediction and then we know
+
+that while the model ultimately comes
+
+from the training data so can we ask
+
+well what which training points are most
+
+responsible for this prediction and we
+
+won't try to formalize this by asking
+
+the counterfactual or how are the
+
+prediction change if we up or don't wait
+
+that each each training point ok ok so
+
+how do you actually do this and so that
+
+that that leads us to the next part
+
+which is the use of insulin functions to
+
+attack answer their question that
+
+question okay so let's formalize Alice's
+
+let's assume that we have training data
+
+we can label it as v1 v2 all the way to
+
+the end where V is a pair of x and y it
+
+so X would be the images for in this
+
+example and Y is a label okay so this is
+
+a standard empirical risk minimization
+
+you you pick the model parameters theta
+
+hat and you pick down so that you
+
+minimize some sort of average loss over
+
+your training example so for whatever
+
+lawsuit you want and then for now we
+
+assume that the losses of a nice convex
+
+differentiable off okay all right so so
+
+that's a standard set up I now assume
+
+you have one particular training image
+
+that you you want to change the weight
+
+of it called a Z
+
+and you want to so make that a little
+
+bit more important and see what happens
+
+to the model right so the way you can we
+
+formalize this is by slightly changing
+
+the loss function so we have this term
+
+which which was there before and then we
+
+add in a little Absalon times the loss
+
+on that particular image so for some
+
+small value of epsilon you can solve
+
+CDSs changing the training distribution
+
+it so that the empirical training
+
+distribution it's a probability
+
+distribution assigns one over N mass to
+
+each training point and ths re wasting
+
+it a little bit so that sort of epsilon
+
+more table TMS on this training example
+
+that you want to output okay
+
+so just make the model try a little bit
+
+harder to fit that particular training
+
+example Z okay and then we learn new a
+
+new new set of parameters we call that
+
+beta hat up of epsilon and Z so the
+
+parameters you learn if you up with Z by
+
+Epsilon okay and so you know the model
+
+might might change a little bit it's
+
+full of us for some values of epsilon of
+
+these so you have the original model on
+
+the left where maybe the model says okay
+
+is the dollops with such and such a
+
+confidence and after you up with this
+
+particular training example maybe the
+
+prediction changes by a little bit okay
+
+so then now we want you to measure this
+
+change and you say that examples that
+
+produce larger changes are more
+
+influential and so once the way we can
+
+do this is just by measuring the lot of
+
+difference in the loss on a particular
+
+test example right so you know given the
+
+two prediction the original prediction
+
+and the new prediction after the
+
+modification
+
+how does the loss change okay and so in
+
+fallen a we say that if this change is
+
+larger than the example as high
+
+influence okay so that's the that's a
+
+formalized set up given any questions
+
+simply right yeah
+
+I
+
+you changed
+
+and then you trust me
+
+yeah listen so does the loss function
+
+itself is the same like whatever hinge
+
+is also square loss or something but you
+
+learn a different set of parameters
+
+because you the parameters the minimizes
+
+of different optimization problems one
+
+is just the original data and one is
+
+with the slight uploading of a
+
+particular training point which is
+
+usable - and not an explanation - of
+
+today that edition right we don't have
+
+this has to exit yeah that's a good
+
+point so you can use this if you're
+
+maybe debugging your model where you
+
+know that main area but if you have a
+
+novel input solution set and you can't
+
+use this but it's like it is easy to
+
+just route wiebe it is easy to look at
+
+basically any function of the old and
+
+new parameters so you can see so maybe
+
+how much is the prediction change
+
+without any notion of the loss okay so
+
+you know I said Oh spectable earlier but
+
+actually if you so my EC the thing you
+
+would mean my try is to fix the value of
+
+epsilon and try retraining the model for
+
+every different Z and see how the
+
+parameters change but that is very slow
+
+especially if we have these large models
+
+that take a long time to train so
+
+afternoon turns out that there's
+
+actually a closed-form expression that
+
+for very small epsilon allows us to
+
+solve this exactly without needing to
+
+retrain the model and so for that we
+
+turn to insulin functions such as which
+
+a very low idea from statistics
+
+introduced several decades ago that's I
+
+guess a lot of things in machine
+
+learning
+
+so insolence is a it's a measure of
+
+stability and statisticians in the past
+
+and the fear of robust statistics were
+
+interested in finding estimators that
+
+didn't change too much with
+
+the line data so that it wouldn't be
+
+vulnerable outliers right so basically
+
+the if you have some sort of estimator
+
+that takes in a distribution they were
+
+interested in asking well how much does
+
+this estimator change if we make a small
+
+perturbation to the distribution right
+
+so for example your estimator it could
+
+be the mean of some some distribution of
+
+values and you know you want to know
+
+well if I change one of these values how
+
+much does the mean change okay so that's
+
+been the quite a lot of work done on
+
+this over over the years and we are
+
+using just of the very basic formulas
+
+that's what and for us ki is basically
+
+the loss on the test input and SS our
+
+empirical training distribution and to
+
+this you to get this down in equation
+
+this was the the definition of the
+
+parameters that we had after
+
+modification so there's actually a an
+
+extra 1 minus epsilon term there that we
+
+didn't have in the previous slide and
+
+this base base these are the formulas or
+
+influence function so let me let's just
+
+pass this slowly right so we assume that
+
+L which is the loss function is nice and
+
+regular for now and we will see how to
+
+relax this later so if the loss is
+
+differentiable convex then the influence
+
+of up wasting a training point D on the
+
+loss on the test example Z test we is be
+
+fine as you know and how much it lost
+
+changes on this test point as we
+
+increase epsilon by a little bit and
+
+epsilon remembers the amount that we up
+
+with the training point feedback so this
+
+is self a infinitesimal of wheezing of
+
+the point Z and you can derive a formula
+
+for this which is the gradient of the
+
+loss at the test point and the gradient
+
+of the loss at a training point in some
+
+quadratic form with this inverse of the
+
+Hessian matrix H is is the empirical
+
+hessian over all the training points
+
+okay so this derivation is not too
+
+difficult and you can basically taking a
+
+quadratic Taylor expansion of the loss
+
+and just as a sanity check right so this
+
+is like the the dense of slides and
+
+presentation so you can go in this a bit
+
+as a sanity check if your gradient here
+
+is very large then it means that if I
+
+changed the parameters by a little bit I
+
+can reduce the loss on my training
+
+example by quite at all right let's of
+
+definition of a large gradient so if the
+
+and that means that if I up with that
+
+training point my parameters would want
+
+to change quite a lot right because I
+
+want to reduce the loss on that training
+
+point and so the influence of that
+
+training point will be higher
+
+yeah that has been subjective oh so this
+
+actually it's not yet in a particularly
+
+attractive of form it is closed form
+
+which I guess is arguably better but
+
+it's not you need to compete yet and we
+
+will see how to do this faster yeah very
+
+good question
+
+okay so yeah requires you have to
+
+actually be the optimum air right this
+
+this this calculation of the pejorative
+
+would be even worse at the excellence
+
+yeah that's right but this equation
+
+would change it a little bit so this
+
+this this particular one assumes that
+
+the gradient at theta hat is zero it
+
+doesn't actually have to be a global
+
+minimum yes and if it's not zero then
+
+you have to add in some term for the
+
+whatever residue a greater than you have
+
+and because the gradient is zero by
+
+assumption here because it is a erm then
+
+you don't have a linear term so when you
+
+do a quadratic in X mention all you get
+
+is this session - okay and the intuition
+
+for the Hessian is basically sort of
+
+captures how much the other data points
+
+want to stay at the value of theta head
+
+that you that you found right so if so
+
+this term is how much the model wants to
+
+try to fit the up wasted training point
+
+and this term is how much everything
+
+else like wants to stay at the previous
+
+value of the parameter that is on okay
+
+and you can also see this as a self
+
+similarity metric and this is basically
+
+the Fisher metric as well if you have a
+
+minute of time okay so so before we go
+
+on to actually how to try to compute it
+
+visits I will show a slide on you know
+
+how do different models look and their
+
+influences look like right so using
+
+using the previous equation we just test
+
+fit two different models of image
+
+recognition just to see how they are
+
+influenced my tree right so we took a
+
+this is a binary classification task
+
+where we're trying to do to recognize
+
+whether this is efficient not so this is
+
+a particular test image and we compare
+
+two different models one as a SVM with a
+
+radial basis function kernel and the
+
+other is basically logistic regression
+
+on top of Inception Network okay and
+
+we're where we fix the inception ever
+
+and just trim the top layer
+
+okay so this both of these models
+
+actually correctly predict that in fact
+
+the test measures the fish but the way
+
+to do it is quite different so as I
+
+expected replaced and the SVM is these
+
+are the most influential examples in a
+
+positive direction on the test image for
+
+each model and you can see that in the
+
+SVM with RBF basically there's a soft
+
+nearest neighbor classification and it's
+
+run on pixel space so it finds training
+
+images that are very close to the test
+
+image in pixels space and those are
+
+influential right and this is just a
+
+graph that shows that whereas the neural
+
+net to some magic of neural net finds
+
+things find self semantically similar
+
+training images so you can see this
+
+these two fish actually have quite
+
+different backgrounds and are quite far
+
+away in pixel space from the test image
+
+but they are nonetheless the most
+
+influential training images on this
+
+image on the bottom is character yeah
+
+because you could back close to the
+
+attachment as well until the cheese
+
+influences with you know and in this
+
+case it it's just you know if I up
+
+weighed our down weight a particular
+
+training image I would what would happen
+
+to the prediction so ignore the timing
+
+does your machine for the day
+
+oh I see
+
+yeah that's right so so yeah if you
+
+allow the whole network to change then
+
+your insolence will be different so
+
+you're totally right
+
+but but I don't think it would
+
+significantly change changes self
+
+qualitative observation that it looks
+
+more like the basically that the models
+
+get the same thing correct but they seem
+
+to approach it from quite different ways
+
+and that the most helpful training
+
+examples and models relying on to make
+
+this prediction are quite different and
+
+then your snoozer in the future yeah so
+
+we have I don't have the slide chin but
+
+it is actually quite different from
+
+kicking in it nearest neighbor in future
+
+space as well because so so if you just
+
+take the nearest neighbor and feature
+
+space basically you are taking this term
+
+- the the Hessian in the middle yeah and
+
+that that actually is can have quite a
+
+large difference also in this form
+
+training examples is higher loss have
+
+higher influence because the model tries
+
+harder to fit fit the examples with
+
+higher loss so I guess the combination
+
+of both of these things actually make
+
+the nearest neighbor distance quite
+
+different from the influence in some
+
+cases the hessian matrix in the example
+
+we showed just taking there comes the
+
+last layers exacting so you know it's
+
+just a linear model that's happened yeah
+
+more of a periscope as we can see em and
+
+it's more like pixelization versus some
+
+high-level which I'm going to come over
+
+to Desmond bridge could apply to do
+
+compression as well exactly and I'll
+
+just say aggression will look something
+
+like this that's it yeah so this is a
+
+sort of kernel features based on the
+
+pixels and these are kind of features
+
+based on something that neural nets do
+
+right and another interesting difference
+
+is that we found these these sort of
+
+weird examples where there's there's
+
+some so actually let me back up a bit
+
+this is a classification task where half
+
+the images of fish and half the images
+
+with dogs and you're like can you tell
+
+which end sufficient oh not the world's
+
+hardest task and we found some some
+
+images of dogs that would look so
+
+different from this test image that
+
+their presence actually helped the
+
+neural net do the correct classification
+
+whereas you we didn't really find this
+
+in the in the SVM training on the pixels
+
+because this is more of a nearest
+
+neighbor saying and these two things are
+
+so far away that they are basically zero
+
+influence and the RBF case but then in
+
+the new honest case they are so
+
+different that the presence of this dog
+
+actually is quite helpful for the model
+
+that's a random observation that the
+
+distribution the infant le different
+
+from
+
+yes sir you can see see on the left so
+
+here is a plot of each dot at the
+
+training example the green ones are
+
+fissures and the red ones are docs and
+
+the y-axis is the influence and the
+
+x-axis is just so you could understand
+
+to be closely so you can see that for
+
+the RBF it kind of matches what you
+
+would expect as the images are further
+
+apart from each other the decreases in
+
+both directions and influence is a sign
+
+quantity it can either be super
+
+influential and helpful or super
+
+influential and bad for the production
+
+whereas and section case it has much
+
+less correlation with distance which one
+
+look more peace in the prediction is
+
+afforded by small number of training
+
+examples really large number of examples
+
+combined together yes ok great question
+
+it's not obvious oh it's just late yeah
+
+it's hard to tell I mean that in this
+
+case there are a few that are in there
+
+much higher than the rest by just in
+
+terms of the pure magnitude the if you
+
+compare the skills influence on the
+
+assume is much higher if you put one
+
+that's very close to in pixel space just
+
+because of how the RBF works they could
+
+change your prediction about a lot
+
+different distance metric for your
+
+children so my car feature transform
+
+this one because this looks like it it's
+
+not some patterns right with this image
+
+and that which they have a very large
+
+selection the patent you see did you
+
+observe anything like that so tension
+
+now I didn't try it but I would expect
+
+that that basically the influence of it
+
+ought to pick up whatever your features
+
+are actually measuring right so if you
+
+if you use some some features that
+
+measure the presence of say particular
+
+edges and orientations then the most
+
+influential training examples ought to
+
+be the ones that maybe share that same
+
+pattern with the training image and so
+
+in this case it was just out to this
+
+sensor pixel
+
+space so you find training images that
+
+are very close to the test image in
+
+ultra distance in this case not sure
+
+what it's doing but it seems to be
+
+looking at you know the patterns on the
+
+fish themselves as opposed to the
+
+background and so you find 20 images
+
+they're quite similar in that respect
+
+yes modeling other neural network models
+
+as well we haven't tried changing the
+
+weights but oh yeah now we haven't
+
+compared other other architectures but I
+
+would expect to do pretty similar things
+
+to use the difference with the SVM yeah
+
+it's a question so yeah yeah comparable
+
+to the extent that it looks kind of like
+
+the logistic loss function but but not
+
+directly yeah they shouldn't by
+
+themselves the result in like a to order
+
+of magnitude change so I think there is
+
+actually something different okay so
+
+okay so that's the basic assumption what
+
+and so far we've seen you know how to
+
+define these things and how to compute
+
+them in theory by inverting the Hessian
+
+but you know in the origin as you've
+
+alluded to earlier in the original paper
+
+in the 70s or n was 24 and in a 10 10
+
+dimensional vectors and they're half of
+
+the people is like let's look at
+
+training example one was where in
+
+example two and so on because data
+
+assets used to be much smaller so how do
+
+we try to scale up these methods to two
+
+so more models that things we have tons
+
+of data and data points are very high
+
+dimensional right so yeah several
+
+problems one or two stages the
+
+efficiency of you know doing these
+
+fashion inverters and so on to is well
+
+you know as the an attention loss that's
+
+of contradicts what we said about
+
+developed being nice and smooth so how
+
+do we deal with that and the third is is
+
+why I said earlier where you know
+
+sometimes you just can't find a global
+
+optimum especially in a new
+
+and so that's anything reset actually
+
+hope so okay so I'll go to this quickly
+
+just so I can get to the application
+
+some the details are all in our paper
+
+and in the references but let's let's
+
+going through this briefly so this is
+
+what you had seen previously this is a
+
+formula for everyone to compute and the
+
+key idea here is that well this Hessian
+
+inverse is really expensive right it's
+
+so cubic and dimension of the each
+
+feature and that can be quite bad so
+
+what we want to do is try to not form it
+
+explicitly okay instead we note that you
+
+know you don't have to form the whole
+
+matrix you just need to be able to take
+
+the product of this inverse matrix with
+
+some other vector in particular the
+
+gradient of the loss and it turns out
+
+that you can do this for you can do this
+
+quickly without needing to form the
+
+whole matrix yes especially if you're
+
+only looking at a few different vectors
+
+and so what we do is well we have this
+
+vector which is a gradient of the loss
+
+and then we use some linear algebra
+
+tricks to compute the Hessian vector
+
+product without actually forming the
+
+Hessian and you can do this and
+
+basically linear time even though this
+
+is a matrix vector multiplication and
+
+then we once you have this Hessian
+
+vector put up you can use it to get the
+
+inverse tangent vector product by some
+
+other optimization tricks such as sort
+
+of posing this as a solution to of the
+
+foot to a quadratic problem and solving
+
+it with CG or something like that and
+
+these are all self standard tricks in
+
+the optimization literature especially
+
+from second-order optimization where you
+
+know you people for a long time have
+
+tried to figure out how do I incorporate
+
+second-order Hessian information into my
+
+gradient steps so we didn't do anything
+
+so particularly new here we adapted a
+
+lot of techniques that were already in
+
+the
+
+you yeah country radius conversions is
+
+not linear time right so today I was
+
+just talking about the first step yeah
+
+but but in in in general so you say
+
+you're right and for the larger scale
+
+experiments we actually use a different
+
+method that's in this paper here which
+
+is a stochastic estimator for the
+
+question and sort of roughly it seems
+
+like you can get fairly good estimates
+
+of the accuracy a very accurate estimate
+
+of the invitation like their product in
+
+time that is linear and N and n P the
+
+optimization of the diagonal and very or
+
+informational in all those identity and
+
+writing and it's almost it works amazing
+
+if you just ignore it just to be as
+
+empathy as well in the work
+
+yeah so so if you ignore it it does it
+
+does work better than just repo the
+
+diagonal version was better than just
+
+identities for sure but we we actually
+
+have it and now it's the first figure
+
+and optimizing their cases in which
+
+actually doesn't capture coil of the
+
+information and it depends that you
+
+would expect on how colors are your
+
+features to start with and so on okay so
+
+have these equations on this this data
+
+it's all about move on okay so what if
+
+the derivatives of the laws don't exist
+
+which is basically true for anything we
+
+might want to study so we we ran an
+
+experiment where we tried for each
+
+training point we remove the training
+
+point I mean actually retrain the model
+
+because I ran their code again and then
+
+we compared what we compared the
+
+parameters we've got we got there with
+
+what we estimated what happens if you
+
+use influence functions and basically
+
+for the hinge loss right there was very
+
+little correlation you can see on the
+
+axis X is the actual difference in the
+
+loss of on a particular training point
+
+that you get while retraining and a
+
+y-axis or cell predict that thing which
+
+was not very good at predicting
+
+and this is because at a hinge the reset
+
+of derivative to zero which is quite a
+
+bad approximation of what's actually
+
+happening okay and Marvin and SEM like
+
+it try to push things to the hinge so
+
+it's not just a pathological point so
+
+the key idea here is well we can
+
+actually just try to replace this loss
+
+function that is not smooth with a
+
+smooth version so this is like a sort of
+
+soft change somewhat like those are just
+
+a gloss and you can see that is you know
+
+for different values of T which is a
+
+temperature term you can get closer look
+
+a bit really close to the edge but there
+
+are still smooth and if you do this but
+
+you know if you set T to some
+
+appropriately little value you actually
+
+get pretty good predictions out of it
+
+and this is this is a prediction
+
+predicted difference in a loss and when
+
+you're using the smooth version of the
+
+hinge but the actual difference is also
+
+actually with the real hinge and so
+
+basically you can train a model using
+
+the non differentiable version of the
+
+loss and just for the purposes of
+
+concreting influence you can swap in
+
+some sort of smoother thing that has
+
+some second order information and it's
+
+at least in this case it should be
+
+pretty well okay and finally you know
+
+our analysis relied on finding the
+
+actual global optimum which are these
+
+days what we assumed earlier this is
+
+hard to do in general because of non
+
+convexity of these stopping poor
+
+optimization and whatever and so what
+
+happens if you don't find a good often
+
+them and basically as as we discussed
+
+earlier well if you can get reasonably
+
+close to a local minimum okay so for
+
+some definition reasonably then the
+
+analysis still holds and it is as if you
+
+started at that local minimum and you
+
+then you remove you you up weights at a
+
+point you retrain the model stopping
+
+from the local minimum okay so if the if
+
+function basically tells you what
+
+happens if you initialize the model at
+
+the minimum and then we train it and the
+
+more details I know papers well but this
+
+is so intuitive idea so it doesn't it
+
+doesn't tell you if you have a cost
+
+landscape there's lots of different
+
+local minima the insolence function
+
+doesn't tell you what happens if you
+
+randomly restart that your model
+
+somewhere else and retrained it but it
+
+tells you what happens if you start on
+
+the same local minimum and in some sense
+
+given that this itself asymptotic
+
+technique that's like the best we can
+
+hope for okay we're in efficient with
+
+you yes so that so you you have problems
+
+if you are in a super set pace or even
+
+if you are like on the set of point or
+
+if you don't actually reach the local
+
+minimum you have shown my head negative
+
+eigenvalues and then yeah exactly
+
+so flatness is a big problem what I've
+
+found is that reject you can you can add
+
+quadratic regularization and and and
+
+make it close and actually it seems to
+
+to work okay so so we did the same
+
+experiment where we remove stuff and
+
+then retrain the model and compared it
+
+to the predictions using insulin on the
+
+left just softmax so it's a linear model
+
+thinks about well on the right we use a
+
+a convolutional net I think there are
+
+seven million or something and we we try
+
+to back prop through the entire thing so
+
+that's so non convex and we didn't train
+
+it to convergence so we stop the
+
+optimization early and we found that we
+
+still could do reasonably well it's not
+
+as nice because all these assumptions
+
+and because of the regularization we had
+
+done and so on but it still actually
+
+finds the most influential points quite
+
+reliably
+
+yeah that's model minute from
+
+a good question not not not not that
+
+many I think that's a few thousand for
+
+this example oh yeah so we we used the
+
+methods that we I just came to earlier
+
+to do that quickly but we had to use a
+
+pretty small model because to get the
+
+ground truth we needed to retrain the
+
+model for each training point every
+
+remove so that was much lower than
+
+computing influence yeah okay so now let
+
+me get through the applications and the
+
+last of the minutes so we have so we
+
+have seen how to at least if you if you
+
+believe me we have seen how to use
+
+instance come clean instance to expiry
+
+efficiently and actually use it on some
+
+mobile models so what good does this do
+
+and what can we use the instance
+
+functions for so go to three different
+
+examples want us to just debug errors in
+
+the model to is to try to fix noisy tool
+
+mislabeled training data and the third
+
+is some sort of adversarial training
+
+okay so let's go through this into
+
+alright so number one if the model if
+
+you know a model makes a mistake let's
+
+say you have some validation set you see
+
+that the model is wrong can we find out
+
+why okay so for case study we took a
+
+hospital readmission data set from UCI
+
+that basically given a bunch of features
+
+on a patient truck can you predict
+
+whether the patient end up back in
+
+hospital in the next 30 days and then
+
+this is this is useful because you know
+
+if you if you can if you know that a
+
+patient has a high chance of getting
+
+back in the hospital you might want to
+
+give more intensive care check out a
+
+patient it's all right so using this
+
+data set we set up but don't we so
+
+publicly set up a domain mismatch so
+
+that the model will make an error and so
+
+that we would know what the reason for
+
+this error and we wanted to see if we
+
+could use include functions we try to
+
+you know find that error that we
+
+introduced okay so the the data set
+
+comprised you know
+
+some set of healthy and and soon-to-be
+
+non healthy adults and the same photo
+
+children and originally I had about
+
+twenty thousand adults and a small
+
+number of kids below the age of ten and
+
+we basically just modify the data set by
+
+removing most of the healthy kids and so
+
+we set up a reintroduce and artificial
+
+domain mismatch where the model now
+
+thinks that kids are very likely to be
+
+readmitted resistance of not true in
+
+general and we want to see whether we
+
+can find this out if we are given this
+
+data without knowing this has change and
+
+stuff things like don't these kinds of
+
+domain adaptation problem is actually
+
+quite common in medicine where you know
+
+hospitals might serve different
+
+populations and a mono train on one
+
+might not generalize it another okay so
+
+the model now saw wrongly things that
+
+children get readmitted frequently so we
+
+gave it a test example of a kid that is
+
+that in reality what's healthy after
+
+thirty days and the model things out of
+
+this kid is definitely going back to
+
+hospital so one baseline that we looked
+
+at was just well what are the feature
+
+waves in our logistic regression can we
+
+see whether being a kid has a really
+
+high coefficient and so if you're I bow
+
+at you you might you might be able to
+
+diagnose what's wrong and it turns out
+
+that oh it doesn't really pop out if you
+
+look at the different weights for the
+
+features the indicator for being a kid
+
+somewhere here it's relatively high but
+
+it's not such immediately obvious that
+
+this is why the model is making a
+
+mistake all right
+
+however if you look at the risk in
+
+examples are influential on our test
+
+prediction we see that basically it's
+
+there for remember they're for children
+
+less than the data set and they have
+
+vastly higher influences than any any
+
+other training point in the data set
+
+it's basically the four children left in
+
+the data set are the ones that are
+
+making the model get us wrong right so
+
+if you remember in this slide you know
+
+we are left with three sick kids and one
+
+healthy on and that basically correspond
+
+just the sort of VM Shi de nada
+
+causing the model to get this
+
+transportation wrong yeah so so looking
+
+at this it's not clear to me how you get
+
+next set of your claim right I look at
+
+this and I said okay I'll believe it
+
+beautiful four examples is basing this
+
+on and yet somehow it matched these four
+
+children and three of them are unhealthy
+
+so of course it made made the wrong
+
+decision how do you get from that to the
+
+realization that actually these are the
+
+only four children in the dataset yeah
+
+good question so we looked at the next
+
+one the next step is looking at the
+
+gradient of the incidence respect to the
+
+future so which of these features of the
+
+the training of the influential training
+
+points were responsible for its high
+
+influence and you can see that in this
+
+case the cell indicator variable for
+
+being a kid actually stem cell so in
+
+that sense you can you can make a guess
+
+as to oh it's probably because they're
+
+children
+
+yeah looking at you're looking at the
+
+classification of a particular input its
+
+endpoint and then looking at the
+
+influence all the training data on the
+
+classification of that halex essence yes
+
+then you just say that specific show yes
+
+well we chose one yeah we ran our
+
+original model and the new model after
+
+we removed a bunch of how the kids and
+
+we just found one that data models are
+
+wrong yeah yeah because we want we
+
+wanted to introduce an error that we
+
+knew why there was an error so that we
+
+could try to find out there yeah okay so
+
+that's one and so hopefully this will be
+
+useful for for practitioners trying to
+
+diagnose what's going on as their models
+
+the second example that we looked at was
+
+fixing the training data so you know in
+
+the real world training labels are noisy
+
+especially if they are caught sauce or
+
+something and some some sometimes we can
+
+actually if we inspected the training
+
+data we could fix it if we if we had a
+
+time but you don't
+
+when you have time to do all your
+
+training data right so here's just all
+
+set up as well if let's say you have a
+
+small budget where you can actually go
+
+and look at some small fraction of your
+
+training data and manually sort of fix
+
+them it can we help to prioritize which
+
+ones you might look at okay so now we
+
+look at a spam classification example
+
+you're going to enter one data set so
+
+let's say you have a bunch of noise of
+
+label emails whether there are spam or
+
+not spam right then in reality this is
+
+pretty noisy because you know it's all
+
+user base and it's even subject to
+
+adversarial attack so what we did just
+
+so we knew the ground truth was we took
+
+10% of the labels and we just flip them
+
+okay so now we know which labels are
+
+long wrongly label which examples are
+
+only label okay and now the key idea
+
+here is that well if a training point is
+
+not influential then we shouldn't waste
+
+our effort to check it even if it's
+
+wrong available as not influential of
+
+the matter and so can we
+
+instead span our effort checking the
+
+examples that I'm going to show and
+
+maybe that will help us use our budget
+
+more effectively right and this is a
+
+slide time ago note that we don't have
+
+access to the test set in this case so
+
+you kind of measure the lawsuits you
+
+talked about earlier since then we
+
+should measure some sort of
+
+cross-validation version of some sense
+
+right and the results are as follows so
+
+on the x-axis is the fraction of the
+
+training data that we checked so this is
+
+our budget to check and remember that so
+
+10% of the training data actually
+
+slipped and a y-axis is the accuracy on
+
+the unseen test set that you get if you
+
+after checking this amount of training
+
+data fixing the ones that you checked
+
+and then training the model okay
+
+and so the dotted line here is what you
+
+get if you had totally clean data the
+
+red line is what you get if you just
+
+randomly pick treat it as a check and
+
+you fix it
+
+is administer the Green Line is what you
+
+get if you just check the training
+
+examples that have the highest loss so
+
+the most wrong ones then you try to fix
+
+them and the bluest if you try to fix
+
+the most influential training examples
+
+and so you can see that this is a any
+
+compared to these baselines is a more
+
+effective way of prioritizing which
+
+positive your changes actually look at
+
+it so if your model makes a mistake
+
+maybe you can say well maybe it's
+
+because the training data is wrong let
+
+me look at the most influential examples
+
+and see if I can find something a
+
+symmetric and the kind of fun if you've
+
+got wrong little most available then
+
+it's non-french illegal happy right
+
+label that's a good one and that that is
+
+actually that is true and you want to
+
+balance that with the probability of the
+
+model so if the if the chain example is
+
+very probable to be of a particular
+
+label then you want to weight it by the
+
+probability so you basically you can do
+
+like a weight division influence where
+
+you you weighted by the class
+
+probability and then by the influence if
+
+that an example had a certain class yeah
+
+and then you get to your basically
+
+that's I think in basically wait a bit
+
+yeah no question good spot okay and just
+
+to get you the last example this is the
+
+direction that we actually didn't think
+
+we would go in but it turns out that in
+
+some functions so that I fit it so
+
+machine learning systems today or they
+
+obtain a lot of the training data from
+
+the outside wall right and so this makes
+
+it makes them vulnerable to attack if
+
+someone could attack the training data
+
+set right so if you assume that you know
+
+you collecting as you collect your data
+
+set is collected from the actions of
+
+users then a malicious user could take
+
+particular actions and sort of screw up
+
+your data set okay so this is known as
+
+the data poisoning attacks and studied
+
+quite a bit in the literature
+
+and we want to ask well can we use
+
+instance functions to help create so if
+
+we were an attacker could we create
+
+these sort of adversarial malicious
+
+training examples to do poison a dataset
+
+okay I'm sure most of you are familiar
+
+with with this image taken from
+
+Goodfellow arrow this is an example of
+
+ever zero test time example where
+
+basically if a neural net the depth
+
+image recognition it seems that this
+
+image is the Panda reasonable confidence
+
+if you add a very small amount of noise
+
+to this image carefully chosen you
+
+basically can trick the model into
+
+thinking that it is a different image
+
+and this this is great this noise is
+
+very carefully chosen basically they do
+
+like gradient descent on this problem if
+
+you assume that a classifier six now if
+
+you look at what I can change in a test
+
+input in order to make the prediction
+
+the most wrong way and I just follow
+
+that gradient you can come up this noise
+
+and it tells us very quite effective
+
+okay so this is what not not by us from
+
+few years ago and our idea is well can
+
+we use the same approach as in these
+
+ever to attach examples but instead run
+
+it on the training data and so that we
+
+can create adversarial or training
+
+examples that can poison the classifier
+
+we learn okay so the the so the question
+
+that is well can we get the gradient of
+
+the training example on the test
+
+prediction right so this is formulated a
+
+different way is so how would the loss
+
+on a particular test example change if
+
+we modify the training point slightly
+
+right so X is image if we if we just
+
+edit some sort of Delta noise to this
+
+training point how would the test
+
+relation change and the idea is that we
+
+can well you can use our influence
+
+function machinery to solve this by
+
+interpreting it as adding a little bit
+
+of weight on this new point and
+
+subjecting weight from the old point so
+
+to move
+
+a little bit you just add a new copy
+
+here and you remove the old one okay and
+
+so using excellent functions to do that
+
+we can calculate the gradient of the
+
+test loss with respect to any particular
+
+features of any particular training
+
+image right and so if we if and we can
+
+use this to create adversarial training
+
+time examples so the setup is the same
+
+in adult versus fish classification
+
+tasks that we rejoice because it ought
+
+to be hard for a model to get these two
+
+classes mixed up we did a similar just a
+
+regression on top of Inception features
+
+and so given training image what we do
+
+is project the gradient descent so we
+
+modified we we modify the image a little
+
+bit to maximally increase its test loss
+
+and then we project the modified image
+
+back onto the set of all images that
+
+that share the same 8-bit representation
+
+as the original training image so we
+
+basically want to create a visually
+
+imperceptible version of the training
+
+image that has this observer effect and
+
+then just repeat this like a hundred
+
+times okay and it turns out that
+
+basically a very small perturbation to
+
+one training example so this is a
+
+training example and we make a very
+
+small perturbation to it it's actually
+
+there's a doll and a fish so the models
+
+start really confused by this example so
+
+just making this change out of I think
+
+1820 examples in a row this is enough to
+
+basically flip multiple test predictions
+
+so as I'm making a small change we can
+
+see that the model gets all of these
+
+test images wrong and this change was so
+
+very carefully chosen to make these test
+
+reductions wrong and because it was
+
+following the gradient of the loss of
+
+the model on these test images and so
+
+this is this is basically the analog of
+
+the adversarial test examples but in the
+
+training space and is these two
+
+interesting questions about how secure a
+
+machine learning system if you can make
+
+very small target that changes through
+
+the training set and so significantly
+
+school
+
+a new model and in a way that might be
+
+hard to detect okay so what's the
+
+remaining - nine minutes I managed is
+
+conclude we so we started off with this
+
+question or why did a model make this
+
+prediction and we chose to explore some
+
+complementary perspectives on this which
+
+is a witch training points were most
+
+responsible for given prediction and
+
+then we formalize that by asking ok so
+
+how would the prediction change if we
+
+avoid that each training point and then
+
+we presented so some methods boring on
+
+the statistics literature for how to do
+
+this and a conclusion is that well you
+
+know we can better understand the
+
+behavior of models by looking at this
+
+providencia how was it obtained from the
+
+training data and be sure there's a few
+
+examples and we can do this efficiently
+
+with instance functions of across
+
+different data set and across of a
+
+fairly large variety of models the key
+
+is to basically differentiate through
+
+the training process and to rely on the
+
+asymptotic so infinitesimally changes to
+
+the weight of a training example or to
+
+the features of a training example and
+
+because you're making such small changes
+
+you can do everything in closed form and
+
+so efficiently approximate insulin okay
+
+so this this locality allows us to get
+
+the close on expression that many open
+
+questions which is for example can we
+
+get a more global notion of influence
+
+which goes back to the original the
+
+first question of well we are looking at
+
+a variation of marginal form of insulin
+
+right can you ask questions like how
+
+does this whole subset of the training
+
+data affect the model and that that
+
+might be quite hard to do without
+
+tightening because our method assumes
+
+that the model doesn't change too much
+
+if you just make a small perturbation so
+
+that's still an open question and it's
+
+general much more work to be done on
+
+these tools that can let us so figure
+
+out what a arbitrary that most model is
+
+doing okay well thank you very much add
+
+code and and so reproducible scripts for
+
+experiments in our paper uploaded online
+
+and since our paper
+
+so to teach you a few referred to those
+
+if you want more details and I'm happy
+
+to take questions offline thank you
+
+[Applause]
+

@@ -1,48 +1,41 @@
 ;(()=> {
 const process = require('process')
     , fs = require('fs')
-    , cwd = process.cwd()
-    , srcDir = `${cwd}/src`
-    , testDir = `${cwd}/tests`;
+    , ErrorCode = require('./bluec_error')
+    , BluecInit = require('./bluec_init')
+    , BluecBegin = require('./bluec_begin')
+    , BluecRun = require('./bluec_run');
 
-const ErrorCode = require('./bluec_error');
-
-const isCSource = (fileName)=>{
-  let postFixStr = fileName.trim().split('.').pop();
-
-  return postFixStr === 'c'
-      || postFixStr === 'cc'
-      || postFixStr === 'cpp';
-};
+const root = process.cwd();
 
 if(process.argv.length < 3) {
+  console.log( 'invalid argument.');
+  console.log( 'init : ');
+  console.log( 'begin : ');
+  console.log( 'run : ');
   process.exit(ErrorCode.NoArgs);
 }
 
-if(process.argv[2] === 'init') {
-  let srcList = fs.readdirSync(srcDir);
-
-  if(fs.existsSync(testDir) === false)
-    fs.mkdirSync(testDir);
-
-  srcList.forEach(src=> {
-    if(!isCSource(src))
-      return;
-
-    let tokens = src.trim().split('.');
-    let postfix = tokens.pop();
-
-    tokens.push('_test');
-    testSrc = [tokens.join(''), postfix].join('.');
-
-    fs.writeFileSync(`${testDir}/${testSrc}`, ``, 'utf8');
-  });
-
-  fs.writeFileSync(`${cwd}/BlueCfile.js`, ``, 'utf8');
+let proc;
+switch(process.argv[2]) {
+  case 'init':
+    proc = new BluecInit(root, fs);
+    break;
+  case 'begin':
+    proc = new BluecBegin(root, fs);
+    break;
+  case 'run':
+    proc = new BluecRunner(root, fs);
+    break;
+  default:
+    proc = {Run:()=>{
+      console.log( 'invalid argument.');
+      console.log( 'init : ');
+      console.log( 'begin : ');
+      console.log( 'run : ');
+    }};
+    break;
 }
 
-else if(process.argv[2] === 'run') {
-  process.exit(ErrorCode.NoTestDirectory);
-}
-
+proc.Run();
 })()

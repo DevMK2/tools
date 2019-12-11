@@ -1,6 +1,7 @@
 const ERROR_CODE = {
   NoArgs: 1,
-  NoTestDirectory: 2,
+  NoSrcDirectory: 2,
+  NoTestDirectory: 3,
 };
 
 module.exports = ERROR_CODE;

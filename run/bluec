@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+file=${TOOLS_ROOT_PATH}'/bluec/src/bluec_main.js'
+node ${file} $1
