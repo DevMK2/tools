@@ -1,21 +1,22 @@
-##############################################################
-# usage:
-# 애들이 제출한 과제 압축파일들 있는 디렉토리에서 실행하면 
-# 압축을 해제하고 c파일의 갯수를 출력한다.
-#
-# desc:
-# 1.tar 형식으로 압축된 모든 파일들을 destDir에 압축 해제한다
-# ( tar, tar.gz, 확장자 없는 tar 다 됨. zip도 되는지는 잘 모름)
-#
-# 2.압축 풀린 디렉토리들을 각각 Homework 객체로 만든다.
-#
-# 3.Homework 객체는 마지막에 .c로 끝나는 파일만 c 소스파일로
-#   인식하고 추가한다. ( recursive 탐색 가능)
-#
-# Author : myungkeun lee ( mkro0616@gmail.com )
-##############################################################
-
+# -*- coding: utf-8 -*-
 #!/usr/bin/env python3
+"""
+usage:
+애들이 제출한 과제 압축파일들 있는 디렉토리에서 실행하면 
+압축을 해제하고 c파일의 갯수를 출력한다.
+
+desc:
+1.tar 형식으로 압축된 모든 파일들을 destDir에 압축 해제한다
+( tar, tar.gz, 확장자 없는 tar 다 됨. zip도 되는지는 잘 모름)
+
+2.압축 풀린 디렉토리들을 각각 Homework 객체로 만든다.
+
+3.Homework 객체는 마지막에 .c로 끝나는 파일만 c 소스파일로
+  인식하고 추가한다. ( recursive 탐색 가능)
+
+Author : myungkeun lee ( mkro0616@gmail.com )
+"""
+
 import os
 currDir = os.getcwd()
 destDir = '/'.join( [currDir,'temp__'] )
@@ -38,7 +39,7 @@ class DecompTar :
         homeworks = []
         decompedDirList = files.getDirList(destDir)
         for aDir in decompedDirList :
-            homeworks.append(HomworkFile('/'.join([destDir,aDir])))
+            homeworks.append(HomworkFile(os.path.join(destDir, aDir)))
         return homeworks
 
     def decompTar(self, _fileName, _dest='.'):

@@ -1,13 +1,14 @@
+#-*- coding:UTF-8 -*-
 #!/usr/bin/env python3
 import os
 import sys
 currDir = os.getcwd()
-destDir = '/'.join( [currDir,'temp__'] )
-execDest = '/'.join( [currDir,'temp__exec'])
+destDir = '/'.join([currDir,'temp__'])
+execDest = '/'.join([currDir,'temp__exec'])
 importDir = os.environ['TOOLS_ROOT_PATH']
-sys.path.append('/'.join( [importDir,'tar_decompressor','imports'] ))
+sys.path.append('/'.join( [importDir,'tar_decompressor','imports']))
 import files
-sys.path.append('/'.join( [importDir,'tar_decompressor'] ))
+sys.path.append('/'.join( [importDir,'tar_decompressor']))
 from TarDecompressor import DecompTar
 
 C_BOLD = "\033[1m"
@@ -26,7 +27,7 @@ if __name__ == '__main__':
         homework.CountingC()
         homework.PrintStat(int(countHW))
 
-    countHW = input(C_RED+C_BOLD+'\nEnter any key to compile all ...'+C_END)
+    countHW = input(C_RED+C_BOLD+"\nEnter any key to compile all ..."+C_END)
     os.system('clear')
     if not os.path.isdir(execDest):
         os.makedirs(execDest)
@@ -34,10 +35,10 @@ if __name__ == '__main__':
         homework.CompileAll(execDest)
     os.chdir(execDest)
 
-    countHW = input(C_RED+C_BOLD+'\nEnter any key to execute files ...'+C_END)
-    os.system('clear')
-    for homework in homeworks:
-        homework.ExecFiles()
+    #countHW = input(C_RED+C_BOLD+'\nEnter any key to execute files ...'+C_END)
+    #os.system('clear')
+    #for homework in homeworks:
+        #homework.ExecFiles()
 
     countHW = input(C_RED+C_BOLD+'\nEnter any key to see reports ...'+C_END)
     os.system('clear')

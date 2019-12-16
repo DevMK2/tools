@@ -1,10 +1,11 @@
+# -*- coding: UTF-8 -*-
 import os
 
 def getDirList(_dirName):
     ret = []
     fileList = os.listdir(_dirName)
     for afile in fileList :
-        if isDir_fullpath('/'.join([_dirName,afile])) :
+        if isDir_fullpath(os.path.join(_dirName,afile)) :
             ret.append(afile)
     return ret
 
