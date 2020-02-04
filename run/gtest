@@ -1,0 +1,158 @@
+#!/bin/bash
+
+ARGS_EXISTS=1
+SRC_EXISTS=2
+SRC_EXISTS_IN_SRCDIR=3
+
+CURR_PATH=`pwd -P`
+GTEST_PATH=`dirname "$0"`"/../gtest_init"
+GTEST_TEST_SOURCE=$GTEST_PATH/skeleton.test.cc
+GTEST_TEST_RUNNER=$GTEST_PATH/skeleton.test.sh
+
+main(){
+    if [ "$1" = "-h" ];then
+        echo "==================================================================="
+        echo "         GGGGGG   TTTTTTTT  EEEEEEEE   SSSSSSSS  TTTTTTTT "
+        echo "        GG           TT     EE         SS           TT    "
+        echo "        GG  GGGG     TT     EEEEEEEE   SSSSSSSS     TT    "
+        echo "        GG    GG     TT     EE               SS     TT    "
+        echo "         GGGGG g     TT     EEEEEEEE   SSSSSSSS     TT    "
+        echo "       "
+        echo "         IIIIII   NN    NN   IIIIII    NN    NN  TTTTTTTT "
+        echo "           II     NNNN  NN     II      NNNN  NN     TT    "
+        echo "           II     NN NN NN     II      NN NN NN     TT    "
+        echo "           II     NN  NNNN     II      NN  NNNN     TT    "
+        echo "         IIIIII   NN   NNN   IIIIII    NN   NNN     TT    "
+        echo "  "
+        echo "  1. COMMAND"
+        echo "   > gtest \$FILE_NAME"
+        echo "  "
+        echo "  2. FILE_NAME"
+        echo "   - 테스트하고자 하는 소스파일의 \"확장자를 제외한\" 이름."
+        echo "   - # ./ 혹은 ./src/에 존재하는 소스인 경우 정상동작"
+        echo "   - # 존재하지 않는 경우 src/ 디렉토리 생성후 빈 소스파일을 생성"
+        echo "==================================================================="
+        return
+    fi
+
+    isArgExists $#
+    if [ $ARGS_EXISTS -eq $? ];then
+        makeGtest $1
+    else
+        makeSkeleton
+   fi
+}
+
+isArgExists() {
+    if [ 0 -ne $1 ];then
+        return $ARGS_EXISTS
+    else
+        return 0
+    fi 
+}
+
+# 받은 arg를 name으로 하는 gtest 생성
+makeGtest(){
+    isSrcfileExists $1
+    result=$?
+    if [ $SRC_EXISTS -eq $result ];then
+        echo "There is $SRC_NAME src file, so completly make GTEST"
+        includeAndMake $1
+    elif [ $SRC_EXISTS_IN_SRCDIR -eq $result ];then
+        echo "There is $SRC_NAME src file, so completly make GTEST"
+        includeInSrcAndMake $1
+    else
+        echo "No such $SRC_NAME src file, so make ./src/$SRC_NAME.cc and tests"
+        makeSrcAndIncludeAndMake $1
+    fi
+}
+
+CC=
+isSrcfileExists() {
+    if [ -e "$1.cc" ];then
+        CC="cc"
+        return $SRC_EXISTS
+    elif [ -e "$1.cpp" ];then
+        CC="cpp"
+        return $SRC_EXISTS
+    elif [ -e "src/$1.cc" ];then
+        CC="cc"
+        return $SRC_EXISTS_IN_SRCDIR
+    elif [ -e "src/$1.cpp" ];then
+        CC="cpp"
+        return $SRC_EXISTS_IN_SRCDIR
+    else
+        CC="cc"
+        return 0
+    fi
+}
+
+# src를 include하는 skeleton을 임시로 만들고 카피
+includeAndMake(){
+    include ".." "$1"
+
+    local SRC_NAME=$1
+    copyGTest "temp/$SRC_NAME" "$SRC_NAME"
+
+    removeIncludedSkeleton
+}
+# src/src를 include하는 skeleton을 임시로 만들고 카피
+includeInSrcAndMake(){
+    include "..\\/src" "$1"
+
+    local SRC_NAME=$1
+    copyGTest "temp/$SRC_NAME" "$SRC_NAME"
+
+    removeIncludedSkeleton
+}
+
+include(){
+    local TempTestSource=$GTEST_PATH/temp/$2.test.cc
+    local TempTestRunner=$GTEST_PATH/temp/$2.test.sh
+
+    sed "s/skeleton.cc/$1\\/$2.$CC/" $GTEST_TEST_SOURCE>>$TempTestSource
+    sed "s/skeleton.test.cc/$2.test.cc/" $GTEST_TEST_RUNNER>>$TempTestRunner
+    chmod 777 $TempTestRunner
+}
+
+# src 파일은 없지만 src의 이름으로 skeleton을 이동
+makeSrcAndIncludeAndMake(){
+    local SRC_NAME=$1
+
+    if [ ! -d "src" ];then
+        mkdir src
+    fi
+    touch src/$1.cc
+
+    includeInSrcAndMake $1
+}
+
+# name을 안받았으니 그냥 skeleton으로 이동
+makeSkeleton(){
+    copyGTest "skeleton" "skeleton"
+    echo "No such args, so make skeleton GTEST"
+}
+
+copyGTest(){
+    local SRC_PATH=$1
+    local SRC_NAME=$2
+
+    if [ ! -d "tests" ];then
+        mkdir tests
+    fi
+
+    if [ -e "./tests/$SRC_NAME.test.cc" ]||[ -e "./$SRC_NAME.test.sh" ];then
+        echo "Oh!"
+        echo "No no no... $SRC_NAME test already exists!!"
+        return
+    fi
+
+    cp $GTEST_PATH/$SRC_PATH.test.cc ./tests/$SRC_NAME.test.cc
+    cp $GTEST_PATH/$SRC_PATH.test.sh ./$SRC_NAME.test.sh
+}
+
+removeIncludedSkeleton(){
+    rm $GTEST_PATH/temp/*
+}
+
+main $1
