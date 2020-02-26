@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+
+if [ 2 -eq $# ];then
+    if [ -e "$1" -a -e "$2" ];then
+        cp $1 $1.temp.forswap
+        mv $2 $1
+        mv $1.temp.forswap $2
+    else
+        echo "Error :: you should input existing file names"
+    fi
+else
+    echo "Error :: you should input two args"
+fi
