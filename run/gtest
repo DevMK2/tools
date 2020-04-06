@@ -35,12 +35,18 @@ main(){
         return
     fi
 
+    if [ -e "watch.js" ];then
+        echo "watch.js already is"
+    else
+        cp $GTEST_PATH/watch.js ./
+    fi
+
     isArgExists $#
     if [ $ARGS_EXISTS -eq $? ];then
         makeGtest $1
     else
         makeSkeleton
-   fi
+    fi
 }
 
 isArgExists() {
