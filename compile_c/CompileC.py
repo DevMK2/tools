@@ -35,10 +35,10 @@ if __name__ == '__main__':
         homework.CompileAll(execDest)
     os.chdir(execDest)
 
-    #countHW = input(C_RED+C_BOLD+'\nEnter any key to execute files ...'+C_END)
-    #os.system('clear')
-    #for homework in homeworks:
-        #homework.ExecFiles()
+    countHW = input(C_RED+C_BOLD+'\nEnter any key to execute files ...'+C_END)
+    os.system('clear')
+    for homework in homeworks:
+        homework.ExecFiles()
 
     countHW = input(C_RED+C_BOLD+'\nEnter any key to see reports ...'+C_END)
     os.system('clear')

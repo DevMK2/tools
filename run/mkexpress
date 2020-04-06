@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+file=${TOOLS_ROOT_PATH}'/mkexpress/mkexpress.js'
+node ${file} $1 $2 $3
