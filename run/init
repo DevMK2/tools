@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+DIRNAME="${0%/*}"
+
+if [ $1 = "grunt" ];then
+    GRUNTDIR="$DIRNAME/../set_grunt"
+    echo "set grunt ..."
+    echo "... $GRUNTDIR/Gruntfile.js to $PWD"
+    cp $GRUNTDIR/Gruntfile.js $PWD
+else
+    echo "fuck"
+fi
